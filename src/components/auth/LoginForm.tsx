@@ -33,46 +33,49 @@ export function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl">Welcome Back</CardTitle>
-          <CardDescription>
-            Sign in to your documentation platform
+    <div className="min-h-screen flex items-center justify-center bg-background p-4">
+      <Card className="w-full max-w-md shadow-brutal-xl transform-brutal-2">
+        <CardHeader className="text-center border-b-brutal border-border">
+          <CardTitle className="text-3xl font-bold transform-brutal">WELCOME BACK</CardTitle>
+          <CardDescription className="text-lg font-bold">
+            SIGN IN TO ACCESS THE PLATFORM
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+        <CardContent className="p-8">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-3">
+              <Label htmlFor="email" className="text-base font-bold">EMAIL ADDRESS</Label>
               <Input
                 id="email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                className="transform-brutal"
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+            <div className="space-y-3">
+              <Label htmlFor="password" className="text-base font-bold">PASSWORD</Label>
               <Input
                 id="password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                className="transform-brutal-2"
               />
             </div>
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? 'Signing in...' : 'Sign In'}
+            <Button type="submit" className="w-full text-lg" disabled={isLoading} size="lg">
+              {isLoading ? 'SIGNING IN...' : 'SIGN IN'}
             </Button>
-            <div className="text-center">
+            <div className="text-center pt-4 border-t-brutal border-border">
               <Button
                 type="button"
-                variant="link"
+                variant="ghost"
                 onClick={() => navigate('/register')}
+                className="text-base font-bold"
               >
-                Don't have an account? Sign up
+                DON'T HAVE AN ACCOUNT? SIGN UP
               </Button>
             </div>
           </form>

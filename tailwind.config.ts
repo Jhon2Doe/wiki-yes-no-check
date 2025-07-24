@@ -64,9 +64,18 @@ export default {
 				}
 			},
 			borderRadius: {
-				lg: 'var(--radius)',
-				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)'
+				lg: '0px', /* No radius for brutalist look */
+				md: '0px',
+				sm: '0px'
+			},
+			borderWidth: {
+				'brutal': 'var(--border-brutal)',
+				'brutal-thick': 'var(--border-brutal-thick)',
+			},
+			boxShadow: {
+				'brutal': 'var(--shadow-brutal)',
+				'brutal-lg': 'var(--shadow-brutal-lg)',
+				'brutal-xl': 'var(--shadow-brutal-xl)',
 			},
 			keyframes: {
 				'accordion-down': {
@@ -84,11 +93,17 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'brutal-shake': {
+					'0%, 100%': { transform: 'translateX(0)' },
+					'25%': { transform: 'translateX(-2px) rotate(-0.5deg)' },
+					'75%': { transform: 'translateX(2px) rotate(0.5deg)' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'brutal-shake': 'brutal-shake 0.5s ease-in-out'
 			}
 		}
 	},

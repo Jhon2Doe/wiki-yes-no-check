@@ -8,13 +8,14 @@ interface DashboardLayoutProps {
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full">
+      <div className="min-h-screen flex w-full bg-background">
         <AppSidebar />
         <main className="flex-1 flex flex-col">
-          <header className="h-14 border-b bg-background flex items-center px-4">
-            <SidebarTrigger />
+          <header className="h-16 border-b-brutal border-border bg-muted flex items-center px-6 shadow-brutal">
+            <SidebarTrigger className="text-lg font-bold" />
+            <h1 className="ml-4 text-xl font-bold transform-brutal">DOCUMENTATION PLATFORM</h1>
           </header>
-          <div className="flex-1 p-6">
+          <div className="flex-1 p-6 bg-background">
             {children}
           </div>
         </main>

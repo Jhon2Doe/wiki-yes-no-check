@@ -8,89 +8,101 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Neo-Brutalism Color Palette - Bold and High Contrast */
+    --background: 255 255 255; /* Pure white */
+    --foreground: 0 0% 0%; /* Pure black */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 255 255 255; /* Pure white */
+    --card-foreground: 0 0% 0%; /* Pure black */
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 255 255 255; /* Pure white */
+    --popover-foreground: 0 0% 0%; /* Pure black */
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 120 100% 25%; /* Bold green */
+    --primary-foreground: 0 0% 100%; /* Pure white */
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 240 100% 50%; /* Electric blue */
+    --secondary-foreground: 0 0% 100%; /* Pure white */
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 60 100% 85%; /* Bright yellow */
+    --muted-foreground: 0 0% 0%; /* Pure black */
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 300 100% 50%; /* Hot magenta */
+    --accent-foreground: 0 0% 100%; /* Pure white */
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 100% 50%; /* Bright red */
+    --destructive-foreground: 0 0% 100%; /* Pure white */
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 0 0% 0%; /* Pure black borders */
+    --input: 255 255 255; /* Pure white */
+    --ring: 0 0% 0%; /* Pure black focus ring */
 
-    --radius: 0.5rem;
+    --radius: 0rem; /* No border radius for brutalist look */
 
-    --sidebar-background: 0 0% 98%;
+    /* Sidebar colors */
+    --sidebar-background: 60 100% 85%; /* Bright yellow */
+    --sidebar-foreground: 0 0% 0%; /* Pure black */
+    --sidebar-primary: 120 100% 25%; /* Bold green */
+    --sidebar-primary-foreground: 0 0% 100%; /* Pure white */
+    --sidebar-accent: 300 100% 50%; /* Hot magenta */
+    --sidebar-accent-foreground: 0 0% 100%; /* Pure white */
+    --sidebar-border: 0 0% 0%; /* Pure black */
+    --sidebar-ring: 0 0% 0%; /* Pure black */
 
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Neo-Brutalism Shadows - Harsh and Bold */
+    --shadow-brutal: 6px 6px 0px hsl(0 0% 0%);
+    --shadow-brutal-lg: 10px 10px 0px hsl(0 0% 0%);
+    --shadow-brutal-xl: 15px 15px 0px hsl(0 0% 0%);
+    
+    /* Border widths */
+    --border-brutal: 3px;
+    --border-brutal-thick: 4px;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    /* Dark mode for Neo-Brutalism - Still bold and contrasting */
+    --background: 0 0% 0%; /* Pure black */
+    --foreground: 0 0% 100%; /* Pure white */
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 0%; /* Pure black */
+    --card-foreground: 0 0% 100%; /* Pure white */
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 0%; /* Pure black */
+    --popover-foreground: 0 0% 100%; /* Pure white */
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 120 100% 75%; /* Bright green */
+    --primary-foreground: 0 0% 0%; /* Pure black */
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 240 100% 70%; /* Bright blue */
+    --secondary-foreground: 0 0% 0%; /* Pure black */
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 60 100% 50%; /* Bright yellow */
+    --muted-foreground: 0 0% 0%; /* Pure black */
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 300 100% 70%; /* Bright magenta */
+    --accent-foreground: 0 0% 0%; /* Pure black */
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 100% 70%; /* Bright red */
+    --destructive-foreground: 0 0% 0%; /* Pure black */
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --border: 0 0% 100%; /* Pure white borders */
+    --input: 0 0% 0%; /* Pure black */
+    --ring: 0 0% 100%; /* Pure white focus ring */
+
+    /* Dark sidebar */
+    --sidebar-background: 0 0% 0%; /* Pure black */
+    --sidebar-foreground: 0 0% 100%; /* Pure white */
+    --sidebar-primary: 120 100% 75%; /* Bright green */
+    --sidebar-primary-foreground: 0 0% 0%; /* Pure black */
+    --sidebar-accent: 300 100% 70%; /* Bright magenta */
+    --sidebar-accent-foreground: 0 0% 0%; /* Pure black */
+    --sidebar-border: 0 0% 100%; /* Pure white */
+    --sidebar-ring: 0 0% 100%; /* Pure white */
+
+    /* Dark mode shadows - using white shadows on black background */
+    --shadow-brutal: 6px 6px 0px hsl(0 0% 100%);
+    --shadow-brutal-lg: 10px 10px 0px hsl(0 0% 100%);
+    --shadow-brutal-xl: 15px 15px 0px hsl(0 0% 100%);
   }
 }
 
@@ -101,5 +113,41 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Courier New', monospace; /* Raw, brutalist font */
+  }
+}
+
+/* Neo-Brutalism utility classes */
+@layer utilities {
+  .shadow-brutal {
+    box-shadow: var(--shadow-brutal);
+  }
+  
+  .shadow-brutal-lg {
+    box-shadow: var(--shadow-brutal-lg);
+  }
+  
+  .shadow-brutal-xl {
+    box-shadow: var(--shadow-brutal-xl);
+  }
+  
+  .border-brutal {
+    border-width: var(--border-brutal);
+  }
+  
+  .border-brutal-thick {
+    border-width: var(--border-brutal-thick);
+  }
+  
+  .transform-brutal {
+    transform: rotate(-1deg);
+  }
+  
+  .transform-brutal-2 {
+    transform: rotate(1deg);
+  }
+  
+  .transform-brutal-3 {
+    transform: rotate(-0.5deg);
   }
 }
