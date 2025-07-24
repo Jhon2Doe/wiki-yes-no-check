@@ -113,6 +113,23 @@ class ApiClient {
     return response.json();
   }
 
+  async getFile(id: string) {
+    return this.request<Attachment>(`/files/${id}`);
+  }
+
+  async downloadFile(id: string) {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${this.baseURL}/files/download/${id}`, {
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    });
+
+    if (!response.ok) {
+      throw new Error(`Download failed! status: ${response.status}`);
+    }
+
+    return response.blob();
+  }
+
   async deleteFile(id: string) {
     return this.request(`/files/${id}`, { method: 'DELETE' });
   }
