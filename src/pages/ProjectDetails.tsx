@@ -22,6 +22,14 @@ export default function ProjectDetails() {
   const [content, setContent] = useState('');
   const [installationGuide, setInstallationGuide] = useState('');
   const [sourceCodeUrl, setSourceCodeUrl] = useState('');
+  
+  // README sections
+  const [projectDocumentation, setProjectDocumentation] = useState('');
+  const [summary, setSummary] = useState('');
+  const [hardware, setHardware] = useState('');
+  const [network, setNetwork] = useState('');
+  const [software, setSoftware] = useState('');
+  const [installationDeployment, setInstallationDeployment] = useState('');
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -40,6 +48,17 @@ export default function ProjectDetails() {
         setContent(data.content || '');
         setInstallationGuide(data.installationGuide || '');
         setSourceCodeUrl(data.sourceCodeUrl || '');
+        
+        // Parse content into sections if it exists
+        if (data.content) {
+          const sections = parseContentIntoSections(data.content);
+          setProjectDocumentation(sections.projectDocumentation);
+          setSummary(sections.summary);
+          setHardware(sections.hardware);
+          setNetwork(sections.network);
+          setSoftware(sections.software);
+          setInstallationDeployment(sections.installationDeployment);
+        }
       } catch (error) {
         console.error('Fetch project error:', error);
         toast({
@@ -59,13 +78,88 @@ export default function ProjectDetails() {
     fetchProject();
   }, [id, toast, navigate]);
 
+  // Function to parse content into sections
+  const parseContentIntoSections = (content: string) => {
+    const sections = {
+      projectDocumentation: '',
+      summary: '',
+      hardware: '',
+      network: '',
+      software: '',
+      installationDeployment: ''
+    };
+
+    const lines = content.split('\n');
+    let currentSection = '';
+    let currentContent: string[] = [];
+
+    for (const line of lines) {
+      const trimmedLine = line.trim().toLowerCase();
+      
+      if (trimmedLine.includes('project documentation')) {
+        if (currentSection) sections[currentSection as keyof typeof sections] = currentContent.join('\n').trim();
+        currentSection = 'projectDocumentation';
+        currentContent = [];
+      } else if (trimmedLine.includes('summary')) {
+        if (currentSection) sections[currentSection as keyof typeof sections] = currentContent.join('\n').trim();
+        currentSection = 'summary';
+        currentContent = [];
+      } else if (trimmedLine.includes('hardware')) {
+        if (currentSection) sections[currentSection as keyof typeof sections] = currentContent.join('\n').trim();
+        currentSection = 'hardware';
+        currentContent = [];
+      } else if (trimmedLine.includes('network')) {
+        if (currentSection) sections[currentSection as keyof typeof sections] = currentContent.join('\n').trim();
+        currentSection = 'network';
+        currentContent = [];
+      } else if (trimmedLine.includes('software')) {
+        if (currentSection) sections[currentSection as keyof typeof sections] = currentContent.join('\n').trim();
+        currentSection = 'software';
+        currentContent = [];
+      } else if (trimmedLine.includes('installation') && trimmedLine.includes('deployment')) {
+        if (currentSection) sections[currentSection as keyof typeof sections] = currentContent.join('\n').trim();
+        currentSection = 'installationDeployment';
+        currentContent = [];
+      } else if (currentSection) {
+        currentContent.push(line);
+      }
+    }
+    
+    // Save the last section
+    if (currentSection) {
+      sections[currentSection as keyof typeof sections] = currentContent.join('\n').trim();
+    }
+
+    return sections;
+  };
+
+  // Function to combine sections back into content
+  const combineSectionsIntoContent = () => {
+    const sections = [
+      { title: '# Project Documentation', content: projectDocumentation },
+      { title: '# Summary', content: summary },
+      { title: '# Hardware', content: hardware },
+      { title: '# Network', content: network },
+      { title: '# Software', content: software },
+      { title: '# Installation & Deployment', content: installationDeployment }
+    ];
+
+    return sections
+      .filter(section => section.content.trim())
+      .map(section => `${section.title}\n\n${section.content}`)
+      .join('\n\n');
+  };
+
   const handleSave = async () => {
     if (!id || !project) return;
 
     setSaving(true);
     try {
+      // Combine sections into content before saving
+      const combinedContent = combineSectionsIntoContent();
+      
       await api.updateProject(id, {
-        content,
+        content: combinedContent,
         installationGuide,
         sourceCodeUrl,
       });
@@ -142,43 +236,115 @@ export default function ProjectDetails() {
           </TabsList>
 
           <TabsContent value="readme" className="mt-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Documentation (README)</CardTitle>
-                <CardDescription>
-                  Write your project documentation, installation instructions, and usage guide.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div>
-                    <Label htmlFor="content">Project Documentation</Label>
-                    <Textarea
-                      id="content"
-                      value={content}
-                      onChange={(e) => setContent(e.target.value)}
-                      placeholder="# Project Documentation
+            <div className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Project Documentation</CardTitle>
+                  <CardDescription>
+                    Overview and general documentation for your project.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Textarea
+                    value={projectDocumentation}
+                    onChange={(e) => setProjectDocumentation(e.target.value)}
+                    placeholder="Describe your project, its purpose, and general information..."
+                    rows={8}
+                    className="font-mono text-sm"
+                  />
+                </CardContent>
+              </Card>
 
-## Overview
-Describe your project here...
+              <Card>
+                <CardHeader>
+                  <CardTitle>Summary</CardTitle>
+                  <CardDescription>
+                    Brief summary of the project and its key features.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Textarea
+                    value={summary}
+                    onChange={(e) => setSummary(e.target.value)}
+                    placeholder="Project summary, key features, and objectives..."
+                    rows={6}
+                    className="font-mono text-sm"
+                  />
+                </CardContent>
+              </Card>
 
-## Installation
-1. Step one
-2. Step two
+              <Card>
+                <CardHeader>
+                  <CardTitle>Hardware</CardTitle>
+                  <CardDescription>
+                    Hardware requirements and specifications.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Textarea
+                    value={hardware}
+                    onChange={(e) => setHardware(e.target.value)}
+                    placeholder="Hardware requirements, specifications, compatibility..."
+                    rows={6}
+                    className="font-mono text-sm"
+                  />
+                </CardContent>
+              </Card>
 
-## Usage
-How to use your project...
+              <Card>
+                <CardHeader>
+                  <CardTitle>Network</CardTitle>
+                  <CardDescription>
+                    Network configuration and requirements.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Textarea
+                    value={network}
+                    onChange={(e) => setNetwork(e.target.value)}
+                    placeholder="Network requirements, configurations, ports, protocols..."
+                    rows={6}
+                    className="font-mono text-sm"
+                  />
+                </CardContent>
+              </Card>
 
-## Features
-- Feature 1
-- Feature 2"
-                      rows={20}
-                      className="font-mono text-sm"
-                    />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Software</CardTitle>
+                  <CardDescription>
+                    Software dependencies and requirements.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Textarea
+                    value={software}
+                    onChange={(e) => setSoftware(e.target.value)}
+                    placeholder="Software dependencies, frameworks, libraries, versions..."
+                    rows={6}
+                    className="font-mono text-sm"
+                  />
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Installation & Deployment</CardTitle>
+                  <CardDescription>
+                    Step-by-step installation and deployment instructions.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Textarea
+                    value={installationDeployment}
+                    onChange={(e) => setInstallationDeployment(e.target.value)}
+                    placeholder="Installation steps, deployment process, configuration..."
+                    rows={8}
+                    className="font-mono text-sm"
+                  />
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
 
           <TabsContent value="credentials" className="mt-6">
