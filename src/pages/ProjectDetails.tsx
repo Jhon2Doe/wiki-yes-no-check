@@ -25,10 +25,17 @@ export default function ProjectDetails() {
 
   useEffect(() => {
     const fetchProject = async () => {
-      if (!id) return;
+      if (!id) {
+        console.error('No project ID provided');
+        setLoading(false);
+        return;
+      }
+      
+      console.log('Fetching project with ID:', id);
       
       try {
         const data = await api.getProject(id);
+        console.log('Project data received:', data);
         setProject(data);
         setContent(data.content || '');
         setInstallationGuide(data.installationGuide || '');
@@ -37,16 +44,20 @@ export default function ProjectDetails() {
         console.error('Fetch project error:', error);
         toast({
           title: 'Error',
-          description: 'Failed to load project details.',
+          description: `Failed to load project details: ${error instanceof Error ? error.message : 'Unknown error'}`,
           variant: 'destructive',
         });
+        // Navigate back to projects list if project not found
+        if (error instanceof Error && error.message.includes('404')) {
+          navigate('/projects');
+        }
       } finally {
         setLoading(false);
       }
     };
 
     fetchProject();
-  }, [id, toast]);
+  }, [id, toast, navigate]);
 
   const handleSave = async () => {
     if (!id || !project) return;

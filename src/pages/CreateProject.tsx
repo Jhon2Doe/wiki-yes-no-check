@@ -30,6 +30,14 @@ export default function CreateProject() {
 
     setIsLoading(true);
     try {
+      console.log('Creating project with data:', {
+        title: title.trim(),
+        description: description.trim(),
+        content: 'Project content will be added here.',
+        tags: [],
+        isPublic: false,
+      });
+      
       const newProject = await api.createProject({
         title: title.trim(),
         description: description.trim(),
@@ -38,12 +46,14 @@ export default function CreateProject() {
         isPublic: false,
       });
       
+      console.log('Project created successfully:', newProject);
+      
       toast({
         title: "Success",
         description: "Project created successfully",
       });
       
-      // Navigate to project details page instead of projects list
+      // Navigate to project details page
       navigate(`/projects/${newProject._id}`);
     } catch (error) {
       console.error('Create project error:', error);
