@@ -9,6 +9,7 @@ import { RegisterForm } from "./components/auth/RegisterForm";
 import Dashboard from "./pages/Dashboard";
 import ProjectList from "./pages/ProjectList";
 import CreateProject from "./pages/CreateProject";
+import ProjectDetails from "./pages/ProjectDetails";
 import NotFound from "./pages/NotFound";
 import { useAuth } from "./hooks/use-auth";
 
@@ -62,6 +63,14 @@ function AppRoutes() {
         element={
           <ProtectedRoute>
             <CreateProject />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/projects/:id" 
+        element={
+          <ProtectedRoute>
+            <ProjectDetails />
           </ProtectedRoute>
         } 
       />

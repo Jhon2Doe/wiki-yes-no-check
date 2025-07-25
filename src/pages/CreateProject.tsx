@@ -30,7 +30,7 @@ export default function CreateProject() {
 
     setIsLoading(true);
     try {
-      await api.createProject({
+      const newProject = await api.createProject({
         title: title.trim(),
         description: description.trim(),
         content: 'Project content will be added here.',
@@ -43,7 +43,8 @@ export default function CreateProject() {
         description: "Project created successfully",
       });
       
-      navigate('/projects');
+      // Navigate to project details page instead of projects list
+      navigate(`/projects/${newProject._id}`);
     } catch (error) {
       console.error('Create project error:', error);
       toast({
