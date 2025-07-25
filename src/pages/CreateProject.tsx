@@ -47,6 +47,11 @@ export default function CreateProject() {
       });
       
       console.log('Project created successfully:', newProject);
+      console.log('Project ID:', newProject._id);
+      
+      if (!newProject._id) {
+        throw new Error('Project was created but no ID was returned');
+      }
       
       toast({
         title: "Success",
