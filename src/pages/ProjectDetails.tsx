@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
@@ -15,7 +15,9 @@ import { useToast } from '@/hooks/use-toast';
 export default function ProjectDetails() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { toast } = useToast();
+  const isViewMode = searchParams.get('mode') === 'view';
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -212,10 +214,12 @@ export default function ProjectDetails() {
             <Badge variant={project.status === 'published' ? 'default' : 'secondary'}>
               {project.status}
             </Badge>
-            <Button onClick={handleSave} disabled={saving}>
-              <Save className="h-4 w-4 mr-2" />
-              {saving ? 'Saving...' : 'Save Changes'}
-            </Button>
+            {!isViewMode && (
+              <Button onClick={handleSave} disabled={saving}>
+                <Save className="h-4 w-4 mr-2" />
+                {saving ? 'Saving...' : 'Save Changes'}
+              </Button>
+            )}
           </div>
         </div>
 
@@ -251,6 +255,7 @@ export default function ProjectDetails() {
                     placeholder="Describe your project, its purpose, and general information..."
                     rows={8}
                     className="font-mono text-sm"
+                    readOnly={isViewMode}
                   />
                 </CardContent>
               </Card>
@@ -269,6 +274,7 @@ export default function ProjectDetails() {
                     placeholder="Project summary, key features, and objectives..."
                     rows={6}
                     className="font-mono text-sm"
+                    readOnly={isViewMode}
                   />
                 </CardContent>
               </Card>
@@ -287,6 +293,7 @@ export default function ProjectDetails() {
                     placeholder="Hardware requirements, specifications, compatibility..."
                     rows={6}
                     className="font-mono text-sm"
+                    readOnly={isViewMode}
                   />
                 </CardContent>
               </Card>
@@ -305,6 +312,7 @@ export default function ProjectDetails() {
                     placeholder="Network requirements, configurations, ports, protocols..."
                     rows={6}
                     className="font-mono text-sm"
+                    readOnly={isViewMode}
                   />
                 </CardContent>
               </Card>
@@ -323,6 +331,7 @@ export default function ProjectDetails() {
                     placeholder="Software dependencies, frameworks, libraries, versions..."
                     rows={6}
                     className="font-mono text-sm"
+                    readOnly={isViewMode}
                   />
                 </CardContent>
               </Card>
@@ -341,6 +350,7 @@ export default function ProjectDetails() {
                     placeholder="Installation steps, deployment process, configuration..."
                     rows={8}
                     className="font-mono text-sm"
+                    readOnly={isViewMode}
                   />
                 </CardContent>
               </Card>
@@ -386,6 +396,7 @@ API_KEY=your_api_key
 Additional configuration details..."
                       rows={15}
                       className="font-mono text-sm"
+                      readOnly={isViewMode}
                     />
                   </div>
                 </div>
@@ -430,6 +441,7 @@ function example() {
 - POST /api/users - Create user"
                       rows={15}
                       className="font-mono text-sm"
+                      readOnly={isViewMode}
                     />
                   </div>
                 </div>
