@@ -122,7 +122,7 @@ export default function Dashboard() {
               <div className="space-y-3">
                 {projects.map((project) => (
                   <div
-                    key={project._id}
+                    key={project.id}
                     className="flex items-center justify-between p-3 border rounded-lg"
                   >
                     <div className="flex-1">
@@ -140,7 +140,7 @@ export default function Dashboard() {
                       </div>
                     </div>
                     <Button variant="outline" asChild>
-                      <Link to={`/projects/${project._id}`}>View</Link>
+                      <Link to={`/projects/${project.id}`}>View</Link>
                     </Button>
                   </div>
                 ))}

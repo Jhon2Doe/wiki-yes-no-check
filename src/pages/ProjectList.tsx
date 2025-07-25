@@ -124,7 +124,7 @@ export default function ProjectList() {
         ) : (
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {filteredProjects.map((project) => (
-              <Card key={project._id} className="h-full">
+              <Card key={project.id} className="h-full">
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
@@ -164,10 +164,10 @@ export default function ProjectList() {
                   
                   <div className="flex gap-2">
                     <Button variant="outline" className="flex-1" asChild>
-                      <Link to={`/projects/${project._id}`}>View</Link>
+                      <Link to={`/projects/${project.id}`}>View</Link>
                     </Button>
                     <Button variant="outline" asChild>
-                      <Link to={`/projects/${project._id}/edit`}>Edit</Link>
+                      <Link to={`/projects/${project.id}/edit`}>Edit</Link>
                     </Button>
                   </div>
                 </CardContent>

@@ -153,7 +153,7 @@ class ApiClient {
 
 // Types
 export interface User {
-  _id: string;
+  id: string;
   username: string;
   email: string;
   role: 'admin' | 'user';
@@ -163,7 +163,7 @@ export interface User {
 }
 
 export interface Project {
-  _id: string;
+  id: string;
   title: string;
   description: string;
   content: string;
