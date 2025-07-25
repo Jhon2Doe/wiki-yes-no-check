@@ -33,8 +33,7 @@ export default function CreateProject() {
       await api.createProject({
         title: title.trim(),
         description: description.trim(),
-        content: '',
-        status: 'draft',
+        content: 'Project content will be added here.',
         tags: [],
         isPublic: false,
       });
