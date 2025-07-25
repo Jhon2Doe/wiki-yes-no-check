@@ -30,26 +30,29 @@ export default function CreateProject() {
 
     setIsLoading(true);
     try {
-      console.log('Creating project with data:', {
+      const projectData = {
         title: title.trim(),
         description: description.trim(),
         content: 'Project content will be added here.',
         tags: [],
         isPublic: false,
-      });
+      };
       
-      const newProject = await api.createProject({
-        title: title.trim(),
-        description: description.trim(),
-        content: 'Project content will be added here.',
-        tags: [],
-        isPublic: false,
-      });
+      console.log('Creating project with data:', projectData);
       
-      console.log('Project created successfully:', newProject);
-      console.log('Project ID:', newProject._id);
+      const newProject = await api.createProject(projectData);
       
-      if (!newProject._id) {
+      console.log('Full API response:', newProject);
+      console.log('Response type:', typeof newProject);
+      console.log('Response keys:', newProject ? Object.keys(newProject) : 'null');
+      console.log('Project ID (_id):', newProject?._id);
+      console.log('Project ID (id):', (newProject as any)?.id);
+      
+      // Check both _id and id fields (sometimes MongoDB returns id instead of _id)
+      const projectId = newProject?._id || (newProject as any)?.id;
+      
+      if (!projectId) {
+        console.error('No ID found in response:', newProject);
         throw new Error('Project was created but no ID was returned');
       }
       
@@ -59,7 +62,7 @@ export default function CreateProject() {
       });
       
       // Navigate to project details page
-      navigate(`/projects/${newProject._id}`);
+      navigate(`/projects/${projectId}`);
     } catch (error) {
       console.error('Create project error:', error);
       toast({
