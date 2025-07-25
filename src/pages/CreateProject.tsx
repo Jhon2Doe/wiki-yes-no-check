@@ -33,6 +33,10 @@ export default function CreateProject() {
       await api.createProject({
         title: title.trim(),
         description: description.trim(),
+        content: '',
+        status: 'draft',
+        tags: [],
+        isPublic: false,
       });
       
       toast({
@@ -42,9 +46,10 @@ export default function CreateProject() {
       
       navigate('/projects');
     } catch (error) {
+      console.error('Create project error:', error);
       toast({
         title: "Error",
-        description: "Failed to create project",
+        description: error instanceof Error ? error.message : "Failed to create project",
         variant: "destructive",
       });
     } finally {
