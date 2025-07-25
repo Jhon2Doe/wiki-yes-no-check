@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Plus, Search, Calendar, User as UserIcon } from 'lucide-react';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { api, type Project, type User } from '@/lib/api';
+import { useAuth } from '@/hooks/use-auth';
 import { useToast } from '@/hooks/use-toast';
 
 export default function ProjectList() {
@@ -17,6 +18,7 @@ export default function ProjectList() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
+  const { user } = useAuth();
   const { toast } = useToast();
 
   const formatDate = (dateString: string) => {
@@ -36,24 +38,27 @@ export default function ProjectList() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [projectsData, usersData] = await Promise.all([
-          api.getProjects(),
-          api.getUsers()
-        ]);
-        
+        const projectsData = await api.getProjects();
         setProjects(projectsData);
         setFilteredProjects(projectsData);
         
-        // Create a map of users for quick lookup
-        const usersMap = usersData.reduce((acc: Record<string, User>, user: User) => {
-          acc[user.id] = user;
-          return acc;
-        }, {});
-        setUsers(usersMap);
+        // Only fetch users if user is admin
+        if (user?.role === 'admin') {
+          try {
+            const usersData = await api.getUsers();
+            const usersMap = usersData.reduce((acc: Record<string, User>, user: User) => {
+              acc[user.id] = user;
+              return acc;
+            }, {});
+            setUsers(usersMap);
+          } catch (error) {
+            console.warn('Could not fetch users data (admin required)');
+          }
+        }
       } catch (error) {
         toast({
           title: 'Error',
-          description: 'Failed to load data.',
+          description: 'Failed to load projects.',
           variant: 'destructive',
         });
       } finally {
@@ -62,7 +67,7 @@ export default function ProjectList() {
     };
 
     fetchData();
-  }, [toast]);
+  }, [toast, user?.role]);
 
   useEffect(() => {
     let filtered = projects;
