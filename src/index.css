@@ -9,13 +9,13 @@ All colors MUST be HSL.
 @layer base {
   :root {
     /* Neo-Brutalism Color Palette - Bold and High Contrast */
-    --background: 255 255 255; /* Pure white */
+    --background: 217 100% 94%; /* Light blue #e0ecff */
     --foreground: 0 0% 0%; /* Pure black */
 
-    --card: 255 255 255; /* Pure white */
+    --card: 217 100% 94%; /* Light blue #e0ecff */
     --card-foreground: 0 0% 0%; /* Pure black */
 
-    --popover: 255 255 255; /* Pure white */
+    --popover: 217 100% 94%; /* Light blue #e0ecff */
     --popover-foreground: 0 0% 0%; /* Pure black */
 
     --primary: 120 100% 25%; /* Bold green */
@@ -24,7 +24,7 @@ All colors MUST be HSL.
     --secondary: 240 100% 50%; /* Electric blue */
     --secondary-foreground: 0 0% 100%; /* Pure white */
 
-    --muted: 60 100% 85%; /* Bright yellow */
+    --muted: 217 94% 73%; /* Blue #77aafc */
     --muted-foreground: 0 0% 0%; /* Pure black */
 
     --accent: 300 100% 50%; /* Hot magenta */
@@ -34,13 +34,13 @@ All colors MUST be HSL.
     --destructive-foreground: 0 0% 100%; /* Pure white */
 
     --border: 0 0% 0%; /* Pure black borders */
-    --input: 255 255 255; /* Pure white */
+    --input: 217 100% 94%; /* Light blue #e0ecff */
     --ring: 0 0% 0%; /* Pure black focus ring */
 
     --radius: 0rem; /* No border radius for brutalist look */
 
     /* Sidebar colors */
-    --sidebar-background: 60 100% 85%; /* Bright yellow */
+    --sidebar-background: 217 94% 73%; /* Blue #77aafc */
     --sidebar-foreground: 0 0% 0%; /* Pure black */
     --sidebar-primary: 120 100% 25%; /* Bold green */
     --sidebar-primary-foreground: 0 0% 100%; /* Pure white */
