@@ -5,29 +5,55 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Plus, Search } from 'lucide-react';
+import { Plus, Search, Calendar, User as UserIcon } from 'lucide-react';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
-import { api, type Project } from '@/lib/api';
+import { api, type Project, type User } from '@/lib/api';
 import { useToast } from '@/hooks/use-toast';
 
 export default function ProjectList() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
+  const [users, setUsers] = useState<Record<string, User>>({});
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const { toast } = useToast();
 
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
+  const getUserName = (userId: string) => {
+    return users[userId]?.username || 'Unknown User';
+  };
+
   useEffect(() => {
-    const fetchProjects = async () => {
+    const fetchData = async () => {
       try {
-        const data = await api.getProjects();
-        setProjects(data);
-        setFilteredProjects(data);
+        const [projectsData, usersData] = await Promise.all([
+          api.getProjects(),
+          api.getUsers()
+        ]);
+        
+        setProjects(projectsData);
+        setFilteredProjects(projectsData);
+        
+        // Create a map of users for quick lookup
+        const usersMap = usersData.reduce((acc: Record<string, User>, user: User) => {
+          acc[user.id] = user;
+          return acc;
+        }, {});
+        setUsers(usersMap);
       } catch (error) {
         toast({
           title: 'Error',
-          description: 'Failed to load projects.',
+          description: 'Failed to load data.',
           variant: 'destructive',
         });
       } finally {
@@ -35,7 +61,7 @@ export default function ProjectList() {
       }
     };
 
-    fetchProjects();
+    fetchData();
   }, [toast]);
 
   useEffect(() => {
@@ -136,7 +162,7 @@ export default function ProjectList() {
                   </div>
                 </CardHeader>
                 <CardContent className="flex-1 flex flex-col">
-                  <div className="flex-1">
+                   <div className="flex-1">
                     <div className="flex gap-2 mb-4 flex-wrap">
                       <Badge variant={project.status === 'published' ? 'default' : 'secondary'}>
                         {project.status}
@@ -160,6 +186,25 @@ export default function ProjectList() {
                         )}
                       </div>
                     )}
+
+                    <div className="space-y-2 text-sm text-muted-foreground mb-4">
+                      <div className="flex items-center gap-2">
+                        <UserIcon className="h-3 w-3" />
+                        <span>Created by: {getUserName(project.createdBy)}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Calendar className="h-3 w-3" />
+                        <span>Created: {formatDate(project.createdAt)}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Calendar className="h-3 w-3" />
+                        <span>Modified: {formatDate(project.lastModified)}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <UserIcon className="h-3 w-3" />
+                        <span>Last modified by: {getUserName(project.lastModifiedBy)}</span>
+                      </div>
+                    </div>
                   </div>
                   
                   <div className="flex gap-2">
